@@ -1,0 +1,5 @@
+variables:
+  - name: baseUrl
+    value: https://license.usebruno.com
+  - secret: true
+    name: scimApiKey

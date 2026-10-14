@@ -1,0 +1,41 @@
+info:
+  name: Deactivate User
+  type: http
+  seq: 6
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/scim/v2/Users/{{userId}}"
+  body:
+    type: json
+    data: |-
+      {
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+          {
+            "op": "replace",
+            "path": "active",
+            "value": false
+          }
+        ]
+      }
+  auth:
+    type: bearer
+    token: "{{scimApiKey}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true
+
+docs: |-
+  Deactivate a user (soft delete)
+
+  Sets the user's active status to false. This is a soft delete operation.
+  The user will be excluded from user counts and lists.
+
+  An email notification will be sent to the user about the deactivation.
+
+  Requires SCIM API key authentication.

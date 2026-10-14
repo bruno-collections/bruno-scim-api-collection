@@ -1,0 +1,47 @@
+info:
+  name: Update User (PUT)
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/scim/v2/Users/{{userId}}"
+  body:
+    type: json
+    data: |-
+      {
+        "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+        "id": "{{userId}}",
+        "userName": "john.doe@example.com",
+        "name": {
+          "givenName": "Johnn",
+          "familyName": "Doe"
+        },
+        "emails": [
+          {
+            "value": "john.doe@example.com",
+            "primary": true
+          }
+        ],
+        "active": true
+      }
+  auth:
+    type: bearer
+    token: "{{scimApiKey}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true
+
+docs: |-
+  Update user via PUT (full replacement)
+
+  Replaces the entire user resource with the provided data.
+  All fields should be included, even if unchanged.
+
+  Setting active to false will deactivate the user and send a deactivation email.
+
+  Requires SCIM API key authentication.

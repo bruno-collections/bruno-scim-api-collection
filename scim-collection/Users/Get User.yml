@@ -1,0 +1,28 @@
+info:
+  name: Get User
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{baseUrl}}/scim/v2/Users/:userId"
+  params:
+    - name: userId
+      value: 67892c2731f15e7567e83d3b
+      type: path
+  auth:
+    type: bearer
+    token: "{{scimApiKey}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true
+
+docs: |-
+  Get a specific user by ID
+
+  Returns the complete user resource including all attributes.
+  Requires SCIM API key authentication.

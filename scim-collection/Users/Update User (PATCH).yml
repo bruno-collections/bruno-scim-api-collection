@@ -1,49 +1,51 @@
-meta {
+info:
   name: Update User (PATCH)
   type: http
   seq: 5
-}
 
-patch {
-  url: {{baseUrl}}/scim/v2/Users/{{userId}}
-  body: json
-  auth: bearer
-}
-
-auth:bearer {
-  token: {{scimApiKey}}
-}
-
-body:json {
-  {
-    "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
-    "Operations": [
+http:
+  method: PATCH
+  url: "{{baseUrl}}/scim/v2/Users/{{userId}}"
+  body:
+    type: json
+    data: |-
       {
-        "op": "replace",
-        "path": "active",
-        "value": false
+        "schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        "Operations": [
+          {
+            "op": "replace",
+            "path": "active",
+            "value": false
+          }
+        ]
       }
-    ]
-  }
-}
+  auth:
+    type: bearer
+    token: "{{scimApiKey}}"
 
-docs {
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true
+
+docs: |-
   Update user via PATCH (partial update)
-  
+
   Performs partial updates using SCIM patch operations.
   Only the specified fields are modified.
-  
+
   Supported operations:
   - add: Add a new value
   - replace: Replace an existing value
   - remove: Remove a value
-  
+
   Common use cases:
   - Deactivate user: replace active with false
   - Update email: replace emails
   - Update name: replace name fields
-  
+
   Setting active to false will send a deactivation email to the user.
-  
+
   Requires SCIM API key authentication.
-}
